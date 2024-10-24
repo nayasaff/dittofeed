@@ -116,6 +116,11 @@ export async function createUserEventsTables({
           event_time
         );
       `,
+      /*************************************************Table takes segment id and users and boolean true of false****************************************************** */
+      //What can be done type is only segment and user_property, we can add event_condition and event id and boolean true or false
+      //boolean will be coming from condition
+      //code wise add enum event_condition
+      //understand LowCardinality(String) will this affect code or not
     `
         CREATE TABLE IF NOT EXISTS computed_property_assignments_v2 (
           workspace_id LowCardinality(String),

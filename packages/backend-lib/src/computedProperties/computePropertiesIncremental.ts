@@ -256,6 +256,7 @@ function subscriptionChangeToPerformed(
   };
 }
 
+//check this one in details
 async function signalJourney({
   segmentId,
   workspaceId,
@@ -332,6 +333,8 @@ export function segmentNodeStateId(
   );
 }
 
+/*****************************************************Condition of segment****************************************** */
+//use same condition in events
 function segmentToIndexed({
   segment,
   node,
@@ -414,7 +417,7 @@ function getLowerBoundClause(bound?: number): string {
     ? `and computed_at >= toDateTime64(${bound / 1000}, 3)`
     : "";
 }
-
+//The function inserts data into a table called resolved_segment_state based on certain conditions from the computed_property_state_v2 table.
 function buildRecentUpdateSegmentQuery({
   workspaceId,
   stateId,
@@ -1292,6 +1295,7 @@ function segmentToResolvedState({
   }
 }
 
+/************************************************Handles segment logic****************************************************************** */
 function resolvedSegmentToAssignment({
   segment,
   qb,
@@ -1464,6 +1468,8 @@ function truncateEventTimeExpression(windowSeconds: number): string {
   return `toDateTime64(toStartOfInterval(event_time, toIntervalSecond(${eventTimeInterval})), 3)`;
 }
 
+/*****************************************************Generates subqueries of node************************************************ */
+//add subquery for event conditioning
 export function segmentNodeToStateSubQuery({
   segment,
   node,
@@ -2060,6 +2066,7 @@ type UserPropertyAssignmentConfig =
   | StandardUserPropertyAssignmentConfig
   | PerformedManyUserPropertyAssignmentConfig;
 
+//
 function assignStandardUserPropertiesQuery({
   workspaceId,
   config: ac,
@@ -2501,6 +2508,7 @@ export type PartialComputePropertiesArgs = Omit<
   "journeys" | "integrations"
 >;
 
+/****************************************************************************************** */
 export async function computeState({
   workspaceId,
   segments,
@@ -2676,6 +2684,7 @@ async function execAssignmentQueryGroup({ queries, qb }: AssignmentQueryGroup) {
   }
 }
 
+/************************************Handles logic of computed_property_assignments_v2**************************** */
 export async function computeAssignments({
   workspaceId,
   segments,
@@ -2983,7 +2992,8 @@ async function processRows({
     },
     "processing computed assignments",
   );
-
+  /*************************************************************************************** */
+  //add eventAssigment with workspaceId, userId, eventId, boolean
   await Promise.all([
     upsertBulkUserPropertyAssignments({
       data: pgUserPropertyAssignments.map((a) => ({
@@ -3463,7 +3473,7 @@ export async function processAssignments({
       });
       assignmentProcessors.push(processor);
     }
-
+    //add for loop for events 
     for (const segment of segments) {
       const processor = new AssignmentProcessor({
         workspaceId,

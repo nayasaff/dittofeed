@@ -66,6 +66,8 @@ function getSegmentLabel(tr: { name: string }) {
   return tr.name;
 }
 
+/*******************************************************EDIT SEGMENT SPLIT********************************************************************** */
+//We can add events conditioning
 function SegmentSplitNodeFields({
   nodeId,
   nodeProps,
@@ -114,6 +116,8 @@ function SegmentSplitNodeFields({
   );
 }
 
+/******************************************************EVENT ENTY*********************************************************** */
+//We can take property from event
 function EntryNodeFields({
   nodeId,
   nodeProps,

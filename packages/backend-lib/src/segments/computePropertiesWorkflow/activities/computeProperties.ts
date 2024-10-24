@@ -34,6 +34,9 @@ export async function computePropertiesIncrementalArgs({
       workspaceId,
     }),
   ]);
+
+  /**************************************************Focus here************************************************* */
+  // returns running journeys, all segments
   const args = {
     workspaceId,
     segments: segments.flatMap((s) => {
@@ -65,6 +68,13 @@ export async function computePropertiesIncrementalArgs({
   return args;
 }
 
+
+
+// - Prepares data by mapping segments and user properties.
+// - Establishes relationships between journeys, integrations, user properties, and segments.
+// - Initializes assignment processors for each property and segment.
+// - Processes the assignments in parallel.
+// - Creates necessary periods for the computed properties.
 export async function computePropertiesIncremental({
   workspaceId,
   segments,
@@ -88,7 +98,7 @@ export async function computePropertiesIncremental({
       segments,
       userProperties,
       now,
-    });
+    }); //converts segments to subqueries
     await computeAssignments({
       workspaceId,
       segments,
@@ -105,3 +115,10 @@ export async function computePropertiesIncremental({
     });
   });
 }
+
+
+//get all running journeys, user properties, segments, integrations from postgres
+//converts segments to subqueries which calls segmentNodeToStateSubQuery with handling period 
+//segmentNodeToStateSubQuery handles conditions and or within (in condition check for event conditioning)
+//The function constructs SQL-like queries to update state tables with computed values
+//compute assignment Updates to user properties and segments, triggers actions like journeys or integrations
